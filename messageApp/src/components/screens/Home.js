@@ -1,44 +1,54 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import config from '../../config';
 import  { Message } from '../view';
 
 class Home extends Component {
-    render() {
-    
-        const messages = [
-            {
-                toUser: 'nico',
-                fromUser: 'pablo',
-                message: 'messageApp is awesome',
-                dateTime: new Date(),
-            },
-            {
-                toUser: 'nico',
-                fromUser: 'pablo',
-                message: 'messageApp is awesome',
-                dateTime: new Date(),
-            },{
-                toUser: 'nico',
-                fromUser: 'pablo',
-                message: 'messageApp is awesome',
-                dateTime: new Date(),
-            },{
-                toUser: 'nico',
-                fromUser: 'pablo',
-                message: 'messageApp is awesome',
-                dateTime: new Date(),
-            },{
-                toUser: 'nico',
-                fromUser: 'pablo',
-                message: 'messageApp is awesome',
-                dateTime: new Date(),
-        }];
+    constructor(){
+        super();
+        this.state = {
+            showActivityIndicator:true,
+            messages: []
+        };
+    };
 
+    componentDidMount() {
+        return fetch(`${config.baseUrl}api/message`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-type': 'application/json'
+            }
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then(responseJson => {
+            this.setState({ 
+                messages : responseJson.data, 
+                showActivityIndicator: false
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            this.setState({
+                showActivityIndicator: false
+            })
+        })
+    }
+    
+
+    render() {
+        const {messages} = this.state;
         const lastIndex = (messages.length) - 1 ;
 
         return (
             <View style={styles.container}>
+            {
+                (this.state.showActivityIndicator) ?
+                    <ActivityIndicator animating size= 'large'/> :
+                    null
+            }
                 {messages.map((message, i) => {
                     const last = i == lastIndex;
                     return <Message last={last} {...message}/>
