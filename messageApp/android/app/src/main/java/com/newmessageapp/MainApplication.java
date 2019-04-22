@@ -1,4 +1,4 @@
-package com.messageapp;
+package com.newmessageapp;
 
 import android.app.Application;
 
