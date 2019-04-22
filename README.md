@@ -1,0 +1,1 @@
+This is a messaging app that allows users to have conversations with other users (dah..). The features that are included in this project are user accounts, login and signup with setting a token, sending messages, deleting messages, viewing a message, viewing all messages, infinite scrolling, and self destructing messages.
