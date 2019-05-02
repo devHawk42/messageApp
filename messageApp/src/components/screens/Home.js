@@ -13,7 +13,7 @@ class Home extends Component {
     };
 
     componentDidMount() {
-        return fetch(`${config.baseUrl}api/message`, {
+        return fetch(`http://localhost:3000/message`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -30,7 +30,7 @@ class Home extends Component {
             })
         })
         .catch(err => {
-            console.log(err)
+            //alert(err)
             this.setState({
                 showActivityIndicator: false
             })
