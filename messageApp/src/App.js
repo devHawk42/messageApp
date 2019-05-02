@@ -1,8 +1,8 @@
 import React from 'react';
-import { Home } from './components/screens';
+import { Home, Authenticate } from './components/screens';
 
 const App = props => {
-    return <Home/>;
+    return <Authenticate/>;
 }
 
 export default App;

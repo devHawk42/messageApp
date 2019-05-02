@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
 const flash = require('connect-flash');
-
+var bodyParser = require('body-parser');
 //Initializations
 const app = express();
 require('./database');
@@ -18,6 +18,8 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3000);
 
 //Middlewares
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));
 app.use(session({

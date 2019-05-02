@@ -12,18 +12,20 @@ router.get('/signup', (req, res, next) => {
     res.render('signup')
 });
 
-router.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/',
-    failureRedirect: '/signup',
-    passReqToCallback: true
-}));
+router.post('/signup', passport.authenticate('local-signup'), function(req, res){
+    res.json({
+		confirmation: 'success',
+		data: req.user
+	});
+});
 
 //Login
-router.post('/signin', passport.authenticate('local-signin', {
-    successRedirect: '/',
-    failureRedirect: '/signin',
-    passReqToCallback: true
-}));
+router.post('/signin', passport.authenticate('local-signin'), function(req, res) {
+    res.json({
+		confirmation: 'success',
+		data: req.user
+	});
+});
 
 router.get('/signin', (req, res, next) => {
     res.render('signin')
