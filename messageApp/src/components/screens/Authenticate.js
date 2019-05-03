@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import config from '../../config';
-import { View, Text, StyleSheet, ActivityIndicator, TextInput, AsyncStorage} from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TextInput} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Authenticate extends Component {
     constructor(){
@@ -8,19 +9,38 @@ class Authenticate extends Component {
         this.state = {
             messages : '', 
             showActivityIndicator: true,
-            crendetials: {
-                email: '',
-                password: ''
+            credentials: {
+                email: 'lalalal@lofi.com',
+                password: 'lofi'
             }
         };
     };
 
     componentDidMount(){
-        AsyncStorage.getItem(config.userIdKey)
-        .then(rsp => {
-            alert(JSON.stringify(rsp))
-        })
+        this.register();
+        this.readIdOnAsyncStorage();
     }
+
+    storeIdOnAsyncStorage = async (id) => {
+        try {
+            await AsyncStorage.setItem(config.userIdKey, id);
+        } catch (error) {
+            alert(JSON.stringify(error))
+        }
+    };
+
+    readIdOnAsyncStorage = async () => {
+        try {
+            const value = await AsyncStorage.getItem(config.userIdKey);
+            if(value !== null){
+                alert(JSON.stringify(value))
+            }else{
+                alert(JSON.stringify(value))
+            }
+        } catch (error) {
+            alert(JSON.stringify(error))
+        }
+    };
 
     //authenticateMethod
     register(){
@@ -39,7 +59,7 @@ class Authenticate extends Component {
             this.setState({ 
                 showActivityIndicator: false
             });
-            return AsyncStorage.setItem(config.userIdKey, responseJson.data._id);
+            return this.storeIdOnAsyncStorage(responseJson.data._id);
         })
         .catch(err => {
             alert(err)
@@ -65,7 +85,7 @@ class Authenticate extends Component {
             this.setState({ 
                 showActivityIndicator: false
             });
-            return AsyncStorage.setItem(config.userIdKey, responseJson.data._id);
+            return this.storeIdOnAsyncStorage(responseJson.data._id);
         })
         .catch(err => {
             alert(err)
